@@ -1,20 +1,26 @@
 package com.evg_ivanoff.pizzashopnew.presentation.Menu.category
 
+import android.location.GnssAntennaInfo.Listener
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.evg_ivanoff.pizzashopnew.databinding.CategoryOneItemBinding
+import com.google.android.material.snackbar.Snackbar
 
-class CategoryItemAdapter(private val list: List<CategoryItem>) : RecyclerView.Adapter<CategoryItemAdapter.CategoryViewHolder>() {
+class CategoryItemAdapter(private var list: List<CategoryItem>, val listener: OnItemClickListener) : RecyclerView.Adapter<CategoryItemAdapter.CategoryViewHolder>() {
 
-//    private val list = mutableListOf<CategoryItem>()
+//    var onItemClickListener: ((CategoryItem) -> Unit)? = null
 
     class CategoryViewHolder(private val binding: CategoryOneItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CategoryItem) {
+        fun bind(item: CategoryItem, listener: OnItemClickListener) {
             binding.btnCategory.textOn = item.name
             binding.btnCategory.textOff = item.name
             binding.btnCategory.isChecked = item.enabled
+            binding.btnCategory.setOnClickListener {
+                listener.onItemClick(item)
+            }
         }
     }
 
@@ -24,16 +30,18 @@ class CategoryItemAdapter(private val list: List<CategoryItem>) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], listener)
     }
 
     override fun getItemCount() = list.size
 
-//    fun fillList() {
-//        list.add(CategoryItem(0, "Pizza", false))
-//        list.add(CategoryItem(1, "Combo", false))
-//        list.add(CategoryItem(2, "Deserts", false))
-//        list.add(CategoryItem(3, "Drinks", false))
-//        notifyDataSetChanged()
-//    }
+    interface OnItemClickListener {
+        fun onItemClick(item: CategoryItem)
+    }
+
+    fun sortByEnabled(newList: List<CategoryItem>) {
+        newList.sortedBy { it.enabled }
+        list = newList
+        notifyDataSetChanged()
+    }
 }
