@@ -13,4 +13,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_basket_fragment">Hello basket fragment</string>
     <string name="hello_profile_fragment">Hello profile fragment</string>
+    <string name="example">example</string>
 </resources>
