@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PizzaShopNew</string>
+    <string name="qr_code">qr code</string>
+    <string-array name="cities">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Уфа</item>
+        <item>Казань</item>
+    </string-array>
+    <string name="menu_item_menu">Меню</string>
+    <string name="menu_item_profile">Профиль</string>
+    <string name="menu_item_basket">Корзина</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_basket_fragment">Hello basket fragment</string>
+    <string name="hello_profile_fragment">Hello profile fragment</string>
+</resources>
