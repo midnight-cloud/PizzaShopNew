@@ -4,13 +4,13 @@ import android.location.GnssAntennaInfo.Listener
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.evg_ivanoff.pizzashopnew.databinding.CategoryOneItemBinding
 import com.google.android.material.snackbar.Snackbar
 
-class CategoryItemAdapter(private var list: List<CategoryItem>, val listener: OnItemClickListener) : RecyclerView.Adapter<CategoryItemAdapter.CategoryViewHolder>() {
-
-//    var onItemClickListener: ((CategoryItem) -> Unit)? = null
+class CategoryItemAdapter(val listener: OnItemClickListener):
+    ListAdapter<CategoryItem, CategoryItemAdapter.CategoryViewHolder>(CategoryItemDiffCallback()) {
 
     class CategoryViewHolder(private val binding: CategoryOneItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -30,10 +30,9 @@ class CategoryItemAdapter(private var list: List<CategoryItem>, val listener: On
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(list[position], listener)
+        val item = currentList[position]
+        holder.bind(item, listener)
     }
-
-    override fun getItemCount() = list.size
 
     interface OnItemClickListener {
         fun onItemClick(item: CategoryItem)
@@ -41,7 +40,6 @@ class CategoryItemAdapter(private var list: List<CategoryItem>, val listener: On
 
     fun sortByEnabled(newList: List<CategoryItem>) {
         newList.sortedBy { it.enabled }
-        list = newList
-        notifyDataSetChanged()
+        submitList(newList)
     }
 }
