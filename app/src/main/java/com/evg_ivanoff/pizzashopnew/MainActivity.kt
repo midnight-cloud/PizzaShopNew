@@ -17,12 +17,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navController = findNavController(R.id.main_fragment_container)
-//        val appBarConfiguration = AppBarConfiguration(setOf(
-//            R.id.navigation_menu,
-//            R.id.navigation_profile,
-//            R.id.navigation_basket
-//        ))
-//        setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navMenu.setupWithNavController(navController)
     }
 }

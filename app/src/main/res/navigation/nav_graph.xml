@@ -12,12 +12,12 @@
         tools:layout="@layout/fragment_menu" />
     <fragment
         android:id="@+id/navigation_basket"
-        android:name="com.evg_ivanoff.pizzashopnew.BasketFragment"
+        android:name="com.evg_ivanoff.pizzashopnew.presentation.Basket.BasketFragment"
         android:label="fragment_basket"
         tools:layout="@layout/fragment_basket" />
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.evg_ivanoff.pizzashopnew.ProfileFragment"
+        android:name="com.evg_ivanoff.pizzashopnew.presentation.Profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 

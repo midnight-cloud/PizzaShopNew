@@ -1,24 +1,23 @@
 package com.evg_ivanoff.pizzashopnew.presentation.Menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.evg_ivanoff.pizzashopnew.databinding.FragmentMenuBinding
+import com.evg_ivanoff.pizzashopnew.presentation.Menu.banner.BannerItemAdapter
 import com.evg_ivanoff.pizzashopnew.presentation.Menu.category.CategoryItem
 import com.evg_ivanoff.pizzashopnew.presentation.Menu.category.CategoryItemAdapter
 import com.evg_ivanoff.pizzashopnew.presentation.Menu.category.CategoryViewModel
-import com.google.android.material.snackbar.Snackbar
 
 class MenuFragment : Fragment(), CategoryItemAdapter.OnItemClickListener {
 
-    private lateinit var adapter: CategoryItemAdapter
+    private lateinit var adapter_categories: CategoryItemAdapter
+    private lateinit var adapter_banners: BannerItemAdapter
     private val categoryViewModel: CategoryViewModel by activityViewModels()
 
     private var _binding: FragmentMenuBinding? = null
@@ -38,9 +37,10 @@ class MenuFragment : Fragment(), CategoryItemAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         categoryViewModel.categories.observe(activity as LifecycleOwner) {
-            it?.let { adapter.submitList(it.sortedBy { it.name }) }
+            it?.let { adapter_categories.submitList(it.sortedBy { it.name }) }
         }
         setupRecyclerCategories()
+        setupRecyclerBunners()
     }
 
     override fun onDestroyView() {
@@ -50,8 +50,14 @@ class MenuFragment : Fragment(), CategoryItemAdapter.OnItemClickListener {
 
     private fun setupRecyclerCategories() {
         binding.rvMenuCategory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        adapter = CategoryItemAdapter(this@MenuFragment)
-        binding.rvMenuCategory.adapter = adapter
+        adapter_categories = CategoryItemAdapter(this@MenuFragment)
+        binding.rvMenuCategory.adapter = adapter_categories
+    }
+
+    private fun setupRecyclerBunners() {
+        binding.rvBannerMain.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        adapter_banners = BannerItemAdapter()
+        binding.rvBannerMain.adapter = adapter_banners
     }
 
     companion object {
@@ -64,6 +70,8 @@ class MenuFragment : Fragment(), CategoryItemAdapter.OnItemClickListener {
     override fun onItemClick(item: CategoryItem) {
         categoryViewModel.categories.value?.get(item.id)?.enabled =
             categoryViewModel.categories.value?.get(item.id)?.enabled != true
-        adapter.sortByEnabled(categoryViewModel.categories.value!!.sortedWith(compareBy({ !it.enabled }, { it.name })))
+        adapter_categories.sortByEnabled(categoryViewModel.categories.value!!.sortedWith(compareBy({ !it.enabled }, { it.name })))
     }
+
+    //TODO: при переходе на другой фрагмент и возврате обратно на мейн, пропадают категории
 }
